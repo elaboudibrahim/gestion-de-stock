@@ -1,4 +1,4 @@
-package com.bouali.gestiondestock.services;
+package com.gestion_stock.services;
 
 import com.flickr4java.flickr.FlickrException;
 import java.io.IOException;

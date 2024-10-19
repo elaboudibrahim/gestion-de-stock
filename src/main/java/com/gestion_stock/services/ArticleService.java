@@ -4,7 +4,7 @@ import com.gestion_stock.dto.ArticleDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
+
 public interface ArticleService {
     public ArticleDto save(ArticleDto articleDto);
     public ArticleDto findById(Integer id);

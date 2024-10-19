@@ -7,12 +7,13 @@ import com.gestion_stock.repository.ArticleRepository;
 import com.gestion_stock.services.ArticleService;
 import com.gestion_stock.validator.ArticleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
     ArticleRepository articleRepository;
