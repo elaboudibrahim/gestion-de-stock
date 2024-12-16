@@ -1,7 +1,9 @@
 package com.gestion_stock.controllers;
 
 import com.gestion_stock.dto.auth.AuthenticationRequestDto;
+import com.gestion_stock.dto.auth.AuthenticationResponseDto;
 import com.gestion_stock.model.Utilisateur;
+import com.gestion_stock.services.JwtUtil;
 import com.gestion_stock.services.auth.ApplicationUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,15 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
     @Autowired
     ApplicationUserDetailsService applicationUserDetailsService;
+    @Autowired
+    JwtUtil jwtUtil;
     @PostMapping("auth")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequestDto utilisateur){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(utilisateur.getLogin(),
-                utilisateur.getPassword()));
+    public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody AuthenticationRequestDto utilisateur){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(utilisateur.getLogin(), utilisateur.getPassword()));
         UserDetails userDetails=applicationUserDetailsService.loadUserByUsername("lol");
-        System.out.println(userDetails);
-//        final UserDetails userDetails=applicationUserDetailsService.loadUserByUsername(utilisateur.getLogin());
-        return ResponseEntity.ok("AuthenticationResponse.builder().accessToken('').build()");
+        String jwt=jwtUtil.generateToken(userDetails);
+       // final UserDetails userDetails=applicationUserDetailsService.loadUserByUsername(utilisateur.getLogin());
+        return ResponseEntity.ok(AuthenticationResponseDto.builder().accessToken(jwt).build());
     }
 
     @GetMapping("auth")

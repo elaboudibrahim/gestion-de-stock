@@ -16,14 +16,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration{
     @Autowired
     ApplicationUserDetailsService applicationUserDetailsService;
+    @Autowired
+    ApplicationRequestFilter applicationRequestFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable());
@@ -32,7 +35,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((request)->request.anyRequest().authenticated());
 
         http.userDetailsService(applicationUserDetailsService);
-
+        http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
     //    http.formLogin(withDefaults());
       //  http.formLogin(f->f.disable());
 //       http.httpBasic(withDefaults());
