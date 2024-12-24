@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gestion_stock.dto.CategoryDto;
+import lombok.Data;
 import org.springframework.util.StringUtils;
 
 public class CategoryValidator {
-
   public static List<String> validate(CategoryDto categoryDto) {
     List<String> errors = new ArrayList<>();
 

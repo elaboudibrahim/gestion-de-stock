@@ -13,6 +13,7 @@ import com.gestion_stock.repository.CategoryRepository;
 import com.gestion_stock.services.CategoryService;
 import com.gestion_stock.validator.CategoryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -32,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
   public CategoryDto save(CategoryDto dto) {
     List<String> errors = CategoryValidator.validate(dto);
     if (!errors.isEmpty()) {
-      throw new InvalidEntityException("La category n'est pas valide", errors);
+      throw new InvalidEntityException("La category n'est pas valide", errors, HttpStatus.BAD_REQUEST.value());
     }
     return CategoryDto.fromEntity(
         categoryRepository.save(CategoryDto.toEntity(dto))
